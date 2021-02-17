@@ -10,36 +10,64 @@ namespace GameEngine
 {
     class Program
     {
-        static void Main(string[] args)
+
+
+        public class Gracz : GameObject
         {
-
-            
-
-            Unity unitygameengine = new Unity();
-
-
-            unitygameengine.SetScreenSize(new Vector2(15, 15));
-
-            for (int i = 0; i <= unitygameengine.height; i++)
+            public override void ApplicationExit()
             {
-                for (int j = 0; j <= unitygameengine.width; j++)
-                {
-                    if(i==0|| j==0|| i == unitygameengine.width-1|| unitygameengine.height-1 == j)
-                      unitygameengine.Add_gameobject(new MapTile(new Vector2(j, i), MapTileType.Stone));
-                } 
+
             }
-            
-            unitygameengine.Add_gameobject(new MapTile(new Vector2(7, 7), MapTileType.Tree));
+            public override void OnColision(GameObject colider)
+            {
+               
+            }
+            public override void Start()
+            {
+                this.model = 'O';
+                this.background_color = ConsoleColor.DarkYellow;
+                 Unity.Camera_LookAt(this);
+            }
 
-            unitygameengine.Add_gameobject(new Enemy());
-            unitygameengine.Add_gameobject(new Player());
-            unitygameengine.Start();
-
-
-
+            public override void Update()
+            {
+              
+            }
+            public override void OnKeyPressed(ConsoleKey key)
+            {
+                switch (key)
+                {
+                    case ConsoleKey.W:
+                        position.y++;
+                        break;
+                    case ConsoleKey.S:
+                        position.y--;
+                        break;
+                    case ConsoleKey.A:
+                        position.x++;
+                        break;
+                    case ConsoleKey.D:
+                        position.x--;
+                        break;
+                }
+            }
         }
 
-     
+
+
+        static void Main(string[] args)
+        {
+            for(int i=0;i<5;i++)
+            {
+                 Unity.Add_GameObject(new MapTile(MapTileType.Grass), new Vector2(1, i));
+                 Unity.Add_GameObject(new MapTile(MapTileType.Water), new Vector2(1, i+8));
+            }
+
+            Unity.Add_GameObject(new Player(), new Vector2(4, 4));
+            Unity.Start();
+        }
+
+
 
     }
 }

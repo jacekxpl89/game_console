@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Math
 {
-    public class Vector2
+    public struct Vector2
     {
         public int x;
         public int y;
 
 
-        public Vector2()
+        public static Vector2 operator +(Vector2 v1, Vector2 v2)
         {
-            x = 0;
-            y = 0;
+            return new Vector2(v1.x + v2.x, v1.y + v2.y);
+        }
+        public static Vector2 operator -(Vector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x - v2.x, v1.y - v2.y);
         }
 
         public Vector2(int x, int y)
@@ -24,11 +27,16 @@ namespace GameEngine.Math
             this.y = y;
         }
 
+        public override string ToString()
+        {
+            return $" X:{x}  Y:{y}";
+        }
+
         public override bool Equals(object obj)
         {
             Vector2 vector2 = (Vector2)obj;
 
-            if(vector2.x == this.x && vector2.y == this.y)
+            if (vector2.x == this.x && vector2.y == this.y)
             {
                 return true;
             }

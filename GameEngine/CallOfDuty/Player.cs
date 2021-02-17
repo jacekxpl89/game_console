@@ -17,41 +17,16 @@ namespace GameEngine.CallOfDuty
         {
 
         }
-        public override void Awake()
-        {
-        
-        }
+
         public override void Start()
         {
             this.position = new Vector2(5, 5);
-            this.model = '5';
+            this.model = '@';
+            this.name = "player";
 
             inventory = new Inventory();
             this.childs.Add(inventory);
-
-            Unity.instnace.OnKeyInput += PlayerMovement;
-        }
-
-        public  void PlayerMovement(ConsoleKey consoleKey)
-        {
-           switch(consoleKey)
-            {
-                case ConsoleKey.W:
-                    this.position.y--;
-                    break;
-                case ConsoleKey.S:
-                    this.position.y++;
-                    break;
-                case ConsoleKey.A:
-                    this.position.x--;
-                    break;
-                case ConsoleKey.D:
-                    this.position.x++;
-                    break;
-                case ConsoleKey.I:
-                    inventory.Is_open = !inventory.Is_open;
-                    break;
-            }
+            Unity.Camera_LookAt(this);
         }
 
         public override void Update()
@@ -62,6 +37,28 @@ namespace GameEngine.CallOfDuty
         public override void OnColision(GameObject colider)
         {
             inventory.Add_item();
+        }
+
+        public override void OnKeyPressed(ConsoleKey key)
+        {
+            switch (key)
+            {
+                case ConsoleKey.W:
+                    position.y++;
+                    break;
+                case ConsoleKey.S:
+                    position.y--;
+                    break;
+                case ConsoleKey.A:
+                    position.x++;
+                    break;
+                case ConsoleKey.D:
+                    position.x--;
+                    break;
+                case ConsoleKey.Spacebar:
+                    Unity.Add_GameObject(new Bullet(), this.position);
+                    break;
+            }
         }
     }
 }

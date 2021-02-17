@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,10 +38,6 @@ namespace GameEngine.CallOfDuty
 
         }
 
-        public override void Awake()
-        {
-            
-        }
 
         public override void Start()
         {
@@ -51,7 +48,7 @@ namespace GameEngine.CallOfDuty
         {
             if(Is_open)
             {
-                Unity.instnace.Add_GUI(new GUI.GUI_Message("Przedmioty: " + items.Count));
+                Unity.Add_GUI(new GUI_Message("Przedmioty: " + items.Count));
             }
         }
 
@@ -63,6 +60,11 @@ namespace GameEngine.CallOfDuty
         public override void ApplicationExit()
         {
             
+        }
+
+        public override void OnKeyPressed(ConsoleKey key)
+        {
+
         }
     }
 }

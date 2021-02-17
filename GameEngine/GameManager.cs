@@ -8,6 +8,29 @@ using System.Threading.Tasks;
 
 namespace GameEngine
 {
+
+
+    public struct ScreenPixel
+    {
+        public ConsoleColor background_color;
+        public ConsoleColor foreground_color;
+        public char icon;
+
+        public ScreenPixel(ConsoleColor background_color, ConsoleColor foreground_color, char icon)
+        {
+            this.background_color = background_color;
+            this.foreground_color = foreground_color;
+            this.icon = icon;
+        }
+
+        public ScreenPixel(char icon)
+        {
+            this.background_color = ConsoleColor.Black;
+            this.foreground_color = ConsoleColor.White;
+            this.icon = icon;
+        }
+    }
+
     public class GameManager
     {
 
@@ -19,15 +42,31 @@ namespace GameEngine
         public Action<ConsoleKey> OnKeyInput;
 
 
-        public int frames_count = 0;
-        private bool Is_running = false;
-        private int refresh = 30;
 
-        private char[,] screen;
+
+        public int frames_count = 0;
+        protected bool Is_running = false;
+        public int refresh = 60;
+
+        private ScreenPixel[,] screen;
         public int height;
         public int width;
 
-        public void SetPixel(int x,int y, char value)
+        protected ConsoleColor border_color;
+
+        public void SetPixel(int x, int y, char value)
+        {
+            if (x >= 0 && x <= width && y >= 0 && y <= height)
+            {
+                screen[y, x] = new ScreenPixel(value);
+            }
+        }
+        public void SetBorder(ConsoleColor color)
+        {
+            border_color = color;
+        }
+
+        public void SetPixel(int x, int y, ScreenPixel value)
         {
             if (x >= 0 && x <= width && y >= 0 && y <= height)
             {
@@ -35,7 +74,12 @@ namespace GameEngine
             }
         }
 
-        public void SetPixel(Vector2 point,char value)
+        public void SetPixel(Vector2 point, ScreenPixel value)
+        {
+            SetPixel(point.x, point.y, value);
+        }
+
+        public void SetPixel(Vector2 point, char value)
         {
             SetPixel(point.x, point.y, value);
         }
@@ -47,23 +91,24 @@ namespace GameEngine
 
         public void SetScreenSize(Vector2 size)
         {
-           
-            this.screen = new char[size.y, size.x];
-            this.height = size.y-1;
-            this.width = size.x-1;
+
+            this.screen = new ScreenPixel[size.y, size.x];
+            this.height = size.y - 1;
+            this.width = size.x - 1;
         }
 
         public void Start()
         {
             Is_running = true;
-
+            Console.CursorVisible = false;
+          
             if (OnStart != null)
                 OnStart.Invoke();
 
             while (Is_running)
             {
                 //nie blokuje odswiezania
-                if( Console.KeyAvailable && OnKeyInput != null)
+                if (Console.KeyAvailable && OnKeyInput != null)
                 {
                     ConsoleKeyInfo pressed_key = Console.ReadKey(true);
                     OnKeyInput(pressed_key.Key);
@@ -73,38 +118,49 @@ namespace GameEngine
                 if (OnUpdate != null)
                     OnUpdate.Invoke();
 
-                Console.SetCursorPosition(0, 0);
+            
+
+
                 RefreshScreen();
 
                 if (OnScreenRefreshed != null)
                     OnScreenRefreshed.Invoke();
 
-
-               
-
                 Thread.Sleep(1000 / refresh);
-              
                 ClearScreen();
-              
-              
-               
                 frames_count++;
+            }
+        }
 
+        protected void DrawBorder()
+        {
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i <= height; i++)
+            {
+                for (int j = 0; j <= width; j++)
+                {
+                    Console.BackgroundColor = this.border_color;
+                    Console.Write("   ");
+                }
+                Console.SetCursorPosition(0,  i+1);
             }
         }
 
         protected void RefreshScreen()
         {
-            for(int i=0;i<height;i++)
+            Console.SetCursorPosition(1, 1);
+            for (int i = 0; i < height; i++)
             {
-                for(int j=0;j<width;j++)
+                for (int j = 0; j < width; j++)
                 {
-                    Console.Write(" "+screen[i,j]+" ");
+                    Console.BackgroundColor = screen[i, j].background_color;
+                    Console.ForegroundColor = screen[i, j].foreground_color;
+                    Console.Write(" " + screen[i, j].icon + " ");
                 }
-                Console.WriteLine("");
+                Console.SetCursorPosition(1, i + 1);
             }
-            //clean gui
-          
+
+
         }
         protected void ClearScreen()
         {
@@ -112,29 +168,16 @@ namespace GameEngine
             {
                 for (int j = 0; j < width; j++)
                 {
-                    screen[i, j] = ' ';
+                    screen[i, j] = new ScreenPixel(' ');
                 }
             }
-
-            string result = "";
-            for (int j = 0; j < this.width; j++)
-            {
-                result += "   ";
-            }
-            for (int i=0;i<5;i++)
-            {
-                Console.SetCursorPosition(0, this.height+i);
-              
-                Console.WriteLine(result);
-            }
-          
         }
 
         public void Stop()
         {
             Is_running = false;
 
-            if(OnApplicationExit != null)
+            if (OnApplicationExit != null)
             {
                 OnApplicationExit.Invoke();
             }

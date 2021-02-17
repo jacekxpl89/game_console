@@ -1,43 +1,47 @@
-﻿using GameEngine.GUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameEngine.CallOfDuty
+namespace GameEngine
 {
-    public class Enemy : GameObject
+    public class Camera : GameObject
     {
+
+       public  GameObject target;
+        public void LookAt(GameObject gameObject)
+        {
+            target = gameObject;
+        }
         public override void ApplicationExit()
         {
-
+          
         }
-
-     
 
         public override void OnColision(GameObject colider)
         {
-         
-
-
+           
         }
 
         public override void OnKeyPressed(ConsoleKey key)
         {
-            throw new NotImplementedException();
+      
         }
 
         public override void Start()
         {
-            this.position = new Math.Vector2(3, 3);
-            this.name = "Enemy";
-            this.model = '&';
+            this.enableColision = false;
         }
 
         public override void Update()
         {
-
+            if(target != null)
+            {
+                this.position = target.position;
+            }
+      
+          
         }
     }
 }

@@ -10,14 +10,26 @@ namespace GameEngine
     public abstract class GameObject
     {
 
-        //wykonuje sie totalnie po starcie aplikacji
-        public abstract void Awake();
+        public string id = Guid.NewGuid().ToString();
+        public string name = string.Empty;
+        public string tag = string.Empty;
+        public List<GameObject> childs = new List<GameObject>();
+        public char model = ' ';
+        public bool active = true;
+        public bool destoryed = false;
+        public Vector2 position;
+        public Vector2 last_position;
+        public bool enableColision = true;
+        public ConsoleColor background_color = ConsoleColor.Black;
+        public ConsoleColor foreground_color = ConsoleColor.White;
 
         //wykounje sie po awake
         public abstract void Start();
 
         //wykonuje sie co kazdą klatke
         public abstract void Update();
+
+        public abstract void OnKeyPressed(ConsoleKey key);
 
         public abstract void OnColision(GameObject colider);
 
@@ -27,13 +39,11 @@ namespace GameEngine
         public virtual void Destory()
         {
             destoryed = true;
+            Unity.Delete_GameObject(this);
         }
 
-        public char model = ' ';
-        public bool destoryed = false;
-        public Vector2 position;
-        public Vector2 last_position;
-        public bool Is_colision = true;
+
+
 
         public void SetPosition(Vector2 position)
         {
@@ -42,11 +52,7 @@ namespace GameEngine
         }
 
 
-        public string id = Guid.NewGuid().ToString();
 
-        public String name;
-
-        public List<GameObject> childs = new List<GameObject>();
 
     }
 }
