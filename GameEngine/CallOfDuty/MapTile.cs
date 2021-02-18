@@ -1,4 +1,4 @@
-﻿using GameEngine.Math;
+﻿using GameEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +10,13 @@ namespace GameEngine.CallOfDuty
 
     public enum MapTileType
     {
-        Grass, Tree, Stone, Water
+        Grass, Tree, Stone, Water, Lava
     }
     public class MapTile : GameObject
     {
-        MapTileType type;
+        public MapTileType type;
 
-        public MapTile( MapTileType type)
+        public MapTile(MapTileType type)
         {
             this.type = type;
             this.SetModel(type);
@@ -38,6 +38,10 @@ namespace GameEngine.CallOfDuty
                 case MapTileType.Water:
                     this.background_color = ConsoleColor.Blue;
                     break;
+                    break;
+                case MapTileType.Lava:
+                    this.background_color = ConsoleColor.Yellow;
+                    break;
             }
         }
 
@@ -46,25 +50,38 @@ namespace GameEngine.CallOfDuty
 
         }
 
-   
+
         public override void OnColision(GameObject colider)
         {
-           
+            if (this.type == MapTileType.Lava)
+            {
+                colider.Destory();
+            }
         }
-
+        List<char> animations = new List<char>();
         public override void Start()
         {
             this.name = "Tile: " + this.type.ToString();
+            animations.Add('`');
+            animations.Add('~');
+            animations.Add('>');
+            animations.Add('~');
+            animations.Add('<');
         }
-
+        int i = 0;
         public override void Update()
         {
+            if (i % 2 == 0 && this.type == MapTileType.Water)
+            {
+                this.model = animations[i % animations.Count];
 
+            }
+            i++;
         }
 
         public override void OnKeyPressed(ConsoleKey key)
         {
-          
+
         }
     }
 }

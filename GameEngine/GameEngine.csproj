@@ -45,15 +45,16 @@
   <ItemGroup>
     <Compile Include="CallOfDuty\Bullet.cs" />
     <Compile Include="CallOfDuty\Enemy.cs" />
-    <Compile Include="CallOfDuty\Inventory.cs" />
     <Compile Include="CallOfDuty\MapTile.cs" />
-    <Compile Include="CallOfDuty\Player.cs" />
+    <Compile Include="CallOfDuty\Niemiec.cs" />
+    <Compile Include="CallOfDuty\Polak.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GUI\GUI_Element.cs" />
     <Compile Include="GUI\GUI_Message.cs" />
+    <Compile Include="Mathematic\ComplexMath.cs" />
     <Compile Include="Unity\Camera.cs" />
     <Compile Include="Unity\GameObject.cs" />
-    <Compile Include="Math\Vector2.cs" />
+    <Compile Include="Mathematic\Vector2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unity\Unity.cs" />

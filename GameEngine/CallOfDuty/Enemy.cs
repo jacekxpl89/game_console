@@ -14,29 +14,42 @@ namespace GameEngine.CallOfDuty
 
         }
 
-     
+
 
         public override void OnColision(GameObject colider)
         {
-         
-
+          
 
         }
 
         public override void OnKeyPressed(ConsoleKey key)
         {
-            throw new NotImplementedException();
+
         }
 
+        public Random random;
         public override void Start()
         {
-            this.position = new Math.Vector2(3, 3);
-            this.name = "Enemy";
-            this.model = '&';
-        }
+            this.tag = "Enemy";
+            this.background_color = ConsoleColor.Red;
+            this.model = ';';
 
+            random = new Random();
+        }
+        public int i = 0;
+        public bool AI = true;
         public override void Update()
         {
+
+            if (i % 15 == 0 && AI)
+            {
+                this.position.x = this.position.x + Unity.Random(-2, 2);
+                this.position.y = this.position.y + Unity.Random(-2, 2);
+            }
+            i++;
+
+          
+
 
         }
     }

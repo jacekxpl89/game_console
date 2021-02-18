@@ -1,5 +1,5 @@
 ﻿using GameEngine.CallOfDuty;
-using GameEngine.Math;
+using GameEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,24 +14,35 @@ namespace GameEngine
 
         public class Gracz : GameObject
         {
+
+
+
             public override void ApplicationExit()
             {
 
             }
             public override void OnColision(GameObject colider)
             {
-                
+
+
+
             }
             public override void Start()
             {
                 this.model = 'O';
-                this.background_color = ConsoleColor.DarkYellow;
+                this.tag = "Gracz";
+                this.background_color = ConsoleColor.Red;
                 Unity.Camera_LookAt(this);
+
             }
+
+
+
 
             public override void Update()
             {
-              
+
+
             }
             public override void OnKeyPressed(ConsoleKey key)
             {
@@ -49,6 +60,9 @@ namespace GameEngine
                     case ConsoleKey.D:
                         position.x--;
                         break;
+                    case ConsoleKey.Spacebar:
+                        Unity.Add_GameObject(new Bullet(), this.position);
+                        break;
                 }
             }
         }
@@ -57,14 +71,40 @@ namespace GameEngine
         [STAThread]
         static void Main(string[] args)
         {
-            for(int i=0;i<5;i++)
+
+            Console.Title = "Łapanka varszawa 1944 Polecam Magda Gesler ";
+
+            for (int i = 0; i < 10; i++)
             {
-                 Unity.Add_GameObject(new MapTile(MapTileType.Grass), new Vector2(1, i));
-                 Unity.Add_GameObject(new MapTile(MapTileType.Water), new Vector2(1, i+8));
+                Niemiec nowy_niemiec = new Niemiec();
+                nowy_niemiec.AI = false;
+                Unity.Add_GameObject(nowy_niemiec, new Vector2(Unity.Random(-11, 5), Unity.Random(-5, 11)));
+                Unity.Add_GameObject(new Polak(), new Vector2(Unity.Random(-11, 5), Unity.Random(-5, 11)));
             }
 
-            Unity.Add_GameObject(new Gracz(), new Vector2(4, 4));
+
+            for (int i = -5; i < 5; i++)
+            {
+
+                for (int j = -5; j < 5; j++)
+                {
+
+                    if (ComplexMath.GetDistnace(new Vector2(0, 0), new Vector2(i, j)) < 6)
+                    {
+                        Unity.Add_GameObject(new MapTile(MapTileType.Water), new Vector2(i,j));
+                    }
+                   
+                }
+            }
+
+
+
+            Unity.Add_GameObject(new Gracz(), new Vector2(3, 0));
             Unity.Start();
+
+
+
+
         }
 
 

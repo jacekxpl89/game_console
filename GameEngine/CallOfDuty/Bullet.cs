@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GameEngine.Program;
 
 namespace GameEngine.CallOfDuty
 {
@@ -19,10 +20,17 @@ namespace GameEngine.CallOfDuty
 
         public override void OnColision(GameObject colider)
         {
-            if (colider.name != "player" && colider.name != "bullet")
+            /* if (colider.name != "player" && colider.name != "bullet")
+             {
+                 mn = !mn;
+             }*/
+
+
+            if ((colider is Gracz) == false)
             {
-                mn = !mn;
+                colider.Destory();
             }
+
         }
 
         public override void Start()
