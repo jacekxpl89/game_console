@@ -144,6 +144,7 @@ namespace GameEngine
                 }
                 Console.SetCursorPosition(0,  i+1);
             }
+             Console.SetCursorPosition(0,  height+3);
         }
 
         protected void RefreshScreen()

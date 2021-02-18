@@ -20,9 +20,6 @@ namespace GameEngine
         {
             UnityEngine.Instnace.Stop();
         }
-
-       // public static ConsoleKey KeyPressed => UnityEngine.Instnace.inputkey;
-
         public static void Camera_LookAt(GameObject gameObject)
         {
             UnityEngine.Instnace.camera.LookAt(gameObject);

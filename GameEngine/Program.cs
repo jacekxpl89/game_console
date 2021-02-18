@@ -20,13 +20,13 @@ namespace GameEngine
             }
             public override void OnColision(GameObject colider)
             {
-               
+                
             }
             public override void Start()
             {
                 this.model = 'O';
                 this.background_color = ConsoleColor.DarkYellow;
-                 Unity.Camera_LookAt(this);
+                Unity.Camera_LookAt(this);
             }
 
             public override void Update()
@@ -54,7 +54,7 @@ namespace GameEngine
         }
 
 
-
+        [STAThread]
         static void Main(string[] args)
         {
             for(int i=0;i<5;i++)
@@ -63,7 +63,7 @@ namespace GameEngine
                  Unity.Add_GameObject(new MapTile(MapTileType.Water), new Vector2(1, i+8));
             }
 
-            Unity.Add_GameObject(new Player(), new Vector2(4, 4));
+            Unity.Add_GameObject(new Gracz(), new Vector2(4, 4));
             Unity.Start();
         }
 

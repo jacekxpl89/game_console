@@ -30,7 +30,7 @@ namespace GameEngine
 
         private List<GUI_Element> GUI_to_draw = new List<GUI_Element>();
         private List<GameObject> to_destory = new List<GameObject>();
-
+        private List<string> messages_to_show = new List<string>();
 
         public List<GameObject> gameObjects = new List<GameObject>();
         public Camera camera = new Camera();
@@ -47,22 +47,27 @@ namespace GameEngine
         }
         private void UnityKeyPressed(ConsoleKey key)
         {
-              for(int i =0;i<gameObjects.Count;i++)
-              {
-                    if (gameObjects[i].active)
-                      {
-                          gameObjects[i].OnKeyPressed(key);
-                          gameObjects[i].childs.ForEach(child => child.OnKeyPressed(key));
-                      }
-              } 
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                if (gameObjects[i].active)
+                {
+                    gameObjects[i].OnKeyPressed(key);
+                    gameObjects[i].childs.ForEach(child => child.OnKeyPressed(key));
+                }
+            }
 
-          //  inputkey = key;
+            //  inputkey = key;
         }
+
+     
+
         private void UnityDrawGUI()
         {
+            int size = 0;
             foreach (var g in GUI_to_draw)
             {
                 g.Draw();
+                size += g.image.Count;
             }
             GUI_to_draw.Clear();
         }
